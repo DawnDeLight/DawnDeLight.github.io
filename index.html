@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <script src="http://www.alixixi.com/script/jquery-1.8.3.min.js"></script>
+  <style type="text/css">
+	*{margin:0px; padding:0px;}
+	ul,li{
+	   list-style:none;
+	}
+	a{
+	}
+	.banner{
+	   margin:100px auto;
+	   width:500px;
+	   height:360px;
+       position:relative;
+	   overflow:hidden;
+	}
+	.hot{
+	   width:3000px;
+	   height:360px; 
+	}
+	.hot li{
+	   float:left;
+	}
+	
+	.dot{
+	   width:90px;
+	   height:16px;  
+	   background:rgba(255,255,255,.9);
+	   border-radius:10px;
+	   position:absolute;
+	   top:330px;
+	   left:200px;
+	}
+	.dot li{
+	   list-style:none;
+	   width:10px;
+	   height:10px;  
+	   background:rgba(0,0,0,0.5);
+	   border-radius:10px;
+	   float:left;
+	   margin:4px;
+	}
+    .dot li.on{
+	   background:#f96;
+	}
+	.arrow{
+	  display:none;
+	 }
+	 .arrow span{
+	    height:50px;
+		width:30px;
+		background:#999;
+		cursor:pointer;
+		color:#fff;
+		line-height:50px;
+		font-weight:bold;
+		font-size:28px;
+		text-align:center;
+		display:block;
+		position:absolute;
+		top:50%;
+		margin-top:-25px;
+	 }
+	 .prev{
+	    left:0;
+	 }
+	 .next{
+	    right:0;
+	 }
+  </style>
+ </head>
+ <body>
+   <div class="banner">
+	 <ul class="hot">
+	    <li><img src="img/01.jpg"  alt="" /></li>
+		<li><img src="img/02.jpg"  alt="" /></li>
+		<li><img src="img/03.jpg"  alt="" /></li>
+		<li><img src="img/04.jpg"  alt="" /></li>
+		<li><img src="img/05.jpg"  alt="" /></li>
+	 </ul>
+	 <ul class="dot">
+	    <li class="on"></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	 </ul>
+	 <div class="arrow">
+		<span class="prev">&lt;</span><span class="next">&gt;</span>
+	 </div>
+   </div>
+   <table>
+     <tr width="50" height="100" border="1px solid #000">
+	   <td width="50" height="100" border="1"></td>
+	 </tr>
+   </table>
+   <script type="text/javascript">
+
+      $(function(){
+		 
+	     var width = 500;
+		 var firstimg = $('.hot li').first().clone();
+		 $('.hot').append(firstimg).width($('.hot li').length*width);
+
+          var timer = null;
+		  var delay = 1000;
+		  timer = setInterval(imgChange,delay);
+
+		  var i =0;
+		  function imgChange(){
+					++i;
+					isCrack();
+					dotChange();				 
+	      }
+		  var speed = 400;
+		  function isCrack(){
+  		     if(i == $('.hot li').length){
+				i = 1;
+				$('.hot').css({marginLeft:0});
+		     }
+		     $('.hot').stop().animate({marginLeft:-i*width},speed);
+		  }
+          
+
+		  function dotChange(){
+			 if(i == $('.hot li').length - 1){
+				$('.dot li').eq(0).addClass('on').siblings().removeClass('on');
+			 }else{
+				$('.dot li').eq(i).addClass('on').siblings().removeClass('on');
+			 }
+		  };
+          
+		  $('.banner').hover(function(){
+			    clearInterval(timer);
+				$('.arrow').show();
+		     },function(){
+			    timer = setInterval(imgChange,delay);
+				$('.arrow').hide();
+		   });
+		   $('.dot li').mouseover(function(){
+		        i = $(this).index();
+                $('.hot').stop().animate({marginLeft:-i*width},200);
+				dotChange();
+		   })
+		   
+		   $('.next').click(function(){
+			   imgChange();
+		   });
+		   
+		   $('.prev').click(function(){
+		       i--;
+			   if(i == -1){
+			      i = $('.hot li').length - 2;
+				  $('.hot').css({marginLeft: -($('.hot li').length - 1)*width})
+			   }
+			   $('.hot').stop().animate({marginLeft:-i*width},speed);
+			   dotChange();
+		   });
+		   
+	  });
+	     
+
+	 
+	  
+          
+
+
+		  
+          
+   </script>
+ </body>
+</html>
